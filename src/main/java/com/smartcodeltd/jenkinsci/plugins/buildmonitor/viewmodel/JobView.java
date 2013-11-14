@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.util.*;
 
 import static hudson.model.Result.SUCCESS;
+import static hudson.model.Result.UNSTABLE;
 
 /**
  * @author Jan Molak
@@ -43,9 +44,16 @@ public class JobView {
     @JsonProperty
     public String status() {
         // todo: consider introducing a BuildResultJudge to keep this logic in one place
-        String status = lastCompletedBuild().result() == SUCCESS
-                ? "successful"
-                : "failing";
+        String status;
+        Result buildResult = lastCompletedBuild().result();
+
+        if(buildResult == SUCCESS) {
+            status = "successful";
+        } else if(buildResult == UNSTABLE) {
+            status = "unstable";
+        } else {
+            status = "failing";
+        }
 
         if (lastBuild().isRunning()) {
             status += " running";

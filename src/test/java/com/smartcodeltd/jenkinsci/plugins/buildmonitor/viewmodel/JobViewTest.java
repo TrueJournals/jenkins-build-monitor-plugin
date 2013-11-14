@@ -203,11 +203,18 @@ public class JobViewTest {
 
     @Test
     public void should_describe_the_job_as_failing_if_the_last_build_failed() {
-        for (Result result : asFollows(FAILURE, ABORTED, NOT_BUILT, UNSTABLE)) {
+        for (Result result : asFollows(FAILURE, ABORTED, NOT_BUILT)) {
             view = JobView.of(a(job().whereTheLast(build().finishedWith(result))));
 
             assertThat(view.status(), containsString("failing"));
         }
+    }
+
+    @Test
+    public void should_describe_the_job_as_unstable_if_the_last_build_is_unstable() {
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(UNSTABLE))));
+
+        assertThat(view.status(), containsString("unstable"));
     }
 
     @Test
