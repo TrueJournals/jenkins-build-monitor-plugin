@@ -127,7 +127,7 @@ h2 {
 .build-monitor .latest-results ol {
     list-style-type: none;
     margin: 0 0 0.25em 1em; padding: 0;
-    font-size: 1.2em;
+    font-size: 2em;
 }
 .build-monitor ul#job-views .claimed .meta ul.culprits li {
     font-size: 1em;
