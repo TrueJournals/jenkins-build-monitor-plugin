@@ -8,6 +8,7 @@ import java.util.*;
 
 import static hudson.model.Result.SUCCESS;
 import static hudson.model.Result.UNSTABLE;
+import static hudson.model.Result.ABORTED;
 
 /**
  * @author Jan Molak
@@ -51,6 +52,8 @@ public class JobView {
             status = "successful";
         } else if(buildResult == UNSTABLE) {
             status = "unstable";
+        } else if(buildResult == ABORTED) {
+            status = "aborted";
         } else {
             status = "failing";
         }
