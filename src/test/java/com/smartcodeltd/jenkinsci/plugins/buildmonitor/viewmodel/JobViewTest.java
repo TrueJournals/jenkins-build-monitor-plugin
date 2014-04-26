@@ -203,10 +203,17 @@ public class JobViewTest {
 
     @Test
     public void should_describe_the_job_as_failing_if_the_last_build_failed() {
-        for (Result result : asFollows(FAILURE, ABORTED, NOT_BUILT)) {
-            view = JobView.of(a(job().whereTheLast(build().finishedWith(result))));
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(FAILURE))));
 
-            assertThat(view.status(), containsString("failing"));
+        assertThat(view.status(), containsString("failing"));
+    }
+    
+    @Test
+    public void should_describe_the_job_as_aborted_if_the_last_build_is_aborted() {
+        for (Result result : asFollows(ABORTED, NOT_BUILT)) {
+            view = JobView.of(a(job().whereTheLast(build().finishedWith(result))));
+            
+            assertThat(view.status(), containsString("aborted"));
         }
     }
 
@@ -419,7 +426,7 @@ public class JobViewTest {
         assertThat(view.estimatedDuration(), is(""));
         assertThat(view.progress(),          is(0));
         assertThat(view.culprits(),          hasSize(0));
-        assertThat(view.status(),            is("failing"));
+        assertThat(view.status(),            is("aborted"));
         assertThat(view.isClaimed(), is(false));
         assertThat(view.failureCount(),      is(0));
     }
